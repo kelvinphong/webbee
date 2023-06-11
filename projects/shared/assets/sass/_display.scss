@@ -1,0 +1,12 @@
+.d-flex {display: flex}
+.d-block {display: block}
+.align-items-center {align-items: center;}
+.flex-column {display: flex; flex-direction: column;}
+.flex-center {display: flex;align-items: center;justify-content: center;}
+.flex-between {display: flex;align-items: center;justify-content: space-between;}
+$gapValue: (5, 10);
+@for $i from 1 through length($gapValue) {
+    .gap-#{nth($gapValue, $i)} {
+        gap: nth($gapValue, $i) * 1px;
+    }
+}

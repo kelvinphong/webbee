@@ -1,0 +1,79 @@
+$btnBackgroundColor: (var(--primary-color), transparent, transparent);
+$btnColor: (#fff, #fff, var(--primary-color));
+$btnBorderColor: (var(--primary-color), #fff, var(--primary-color));
+$btnHoverBackgroundColor: (#efc727, #fff, var(--primary-color));
+$btnHoverColor: (#fff, #000, #fff);
+$btnType: ('primary', 'outline', 'outline-primary');
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid var(--btn-border-color);
+    padding: 0.375rem 0.75rem;
+    font-size: 100%;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    color: var(--btn-color);
+    background-color: var(--btn-bg-color);
+    &.no-radius {
+        border-radius: 0;
+    }
+    &.icon-inside {
+      display: flex;
+      align-items: center;
+      .svg-icon {
+        width: 0px;
+        max-width: 0;
+        transition: width 128ms ease;
+      }
+      &:hover {
+        .svg-icon {
+          width: 1em !important;
+          max-width: 1em !important;
+          margin-left: 8px;
+        }
+      }
+    }
+}
+
+@mixin button-variant(
+  $color,
+  $borderColor,
+  $bgColor,
+  $hoverBg,
+  $hoverColor
+) {
+  --btn-color: #{$color};
+  --btn-bg-color: #{$bgColor};
+  --btn-border-color: #{$borderColor};
+  --btn-hover-bg: #{$hoverBg};
+  --btn-hover-color: #{$hoverColor};
+  --btn-hover-icon: #{$hoverColor};
+}
+
+@for $i from 1 through length($btnType) {
+  .btn-#{nth($btnType, $i)} {
+    @include button-variant(
+      nth($btnColor, $i),
+      nth($btnBorderColor, $i),
+      nth($btnBackgroundColor, $i),
+      nth($btnHoverBackgroundColor, $i),
+      nth($btnHoverColor, $i)
+    );
+    &:hover {
+      background-color: var(--btn-hover-bg);
+      color: var(--btn-hover-color);
+      border-color: var(--btn-hover-bg);
+      box-shadow: 2px 1px 10px rgba(0,0,0,0.2);
+      .svg-icon {
+        path { fill: var(--btn-hover-icon) !important}
+      }
+    }
+  }
+}

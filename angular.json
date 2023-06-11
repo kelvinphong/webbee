@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "webbee": {
+    "flower-shop": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -13,26 +13,27 @@
           "strict": true
         }
       },
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/flower-shop",
+      "sourceRoot": "projects/flower-shop/src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
-            "outputPath": "dist/webbee",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/flower-shop",
+            "index": "projects/flower-shop/src/index.html",
+            "main": "projects/flower-shop/src/main.ts",
+            "polyfills": "projects/flower-shop/src/polyfills.ts",
+            "tsConfig": "projects/flower-shop/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+				"projects/flower-shop/src/favicon.ico",
+				"projects/flower-shop/src/assets"
+			],
+			"styles": [
+				"projects/flower-shop/src/styles.scss",
+				"dist/shared/assets/sass/styles.scss"
+			],
             "scripts": []
           },
           "configurations": {
@@ -69,43 +70,80 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "webbee:build:production"
-            },
-            "development": {
-              "browserTarget": "webbee:build:development"
-            }
+							"browserTarget": "flower-shop:build:production",
+							"extraWebpackConfig": "projects/flower-shop/webpack.prod.config.js"
+						},
+						"development": {
+							"browserTarget": "flower-shop:build:development"
+						}
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+						"port": 4200,
+						"publicHost": "http://localhost:4200",
+						"extraWebpackConfig": "projects/flower-shop/webpack.config.js"
+					}
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "webbee:build"
-          }
+          "builder": "ngx-build-plus:extract-i18n",
+					"options": {
+						"browserTarget": "flower-shop:build",
+						"extraWebpackConfig": "projects/flower-shop/webpack.config.js"
+					}
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
-          }
-        }
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "projects/flower-shop/src/test.ts",
+						"polyfills": "projects/flower-shop/src/polyfills.ts",
+						"tsConfig": "projects/flower-shop/tsconfig.spec.json",
+						"karmaConfig": "projects/flower-shop/karma.conf.js",
+						"assets": [
+							"projects/flower-shop/src/favicon.ico",
+							"projects/flower-shop/src/assets"
+						],
+						"styles": [
+							"projects/flower-shop/src/styles.css"
+						],
+						"scripts": []
+					}
+				}
       }
-    }
+    },
+	"shared": {
+		"projectType": "library",
+		"root": "projects/shared",
+		"sourceRoot": "projects/shared/src",
+		"prefix": "lib",
+		"architect": {
+			"build": {
+				"builder": "@angular-devkit/build-angular:ng-packagr",
+				"options": {
+					"project": "projects/shared/ng-package.json"
+				},
+				"configurations": {
+					"production": {
+						"tsConfig": "projects/shared/tsconfig.lib.prod.json"
+					},
+					"development": {
+						"tsConfig": "projects/shared/tsconfig.lib.json"
+					}
+				},
+				"defaultConfiguration": "production"
+			},
+			"test": {
+				"builder": "@angular-devkit/build-angular:karma",
+				"options": {
+					"main": "projects/shared/src/test.ts",
+					"tsConfig": "projects/shared/tsconfig.spec.json",
+					"karmaConfig": "projects/shared/karma.conf.js"
+				}
+			}
+		}
+	}
   },
-  "defaultProject": "webbee"
+  "defaultProject": "flower-shop"
 }

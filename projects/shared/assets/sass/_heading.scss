@@ -1,0 +1,20 @@
+$headingSizes: (3.2rem, 2.8rem, 2.5rem, 2rem, 1.6rem, 1rem);
+$headingSizesXS: (2rem, 1.75rem, 1.5rem, 1.3rem, 1.25rem, 1rem);
+@for $i from 1 through length($headingSizes) {
+    .h#{$i},
+    h#{$i} {
+        margin-top: 0;
+        margin-bottom: .5rem;
+        font-family: inherit;
+        font-size: nth($headingSizes, $i);
+        font-weight: 500;
+    }
+}
+@media (max-width: 991.98px) {
+    @for $i from 1 through length($headingSizesXS) {
+        .h#{$i},
+        h#{$i} {
+            font-size: nth($headingSizesXS, $i);
+        }
+    }
+}

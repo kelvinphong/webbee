@@ -16,6 +16,13 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "@shared": [
+        "projects/shared/src/public-api.ts",
+        "projects/shared/src/sass/styles.scss",
+        "dist/shared"
+      ]
+    },
     "target": "es2017",
     "module": "es2020",
     "lib": [
